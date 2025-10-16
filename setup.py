@@ -8,6 +8,9 @@ setup(
     install_requires=[
         'Flask==2.3.3',
     ],
+    extras_require={
+        'dev': ['flake8'],
+    },
     entry_points={
         'console_scripts': [
             'tic-tac-toe=app:app.run',
