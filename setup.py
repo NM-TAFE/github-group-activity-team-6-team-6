@@ -10,7 +10,7 @@ setup(
     ],
     extras_require={
         'dev': ['flake8'],
-    }
+    },
     entry_points={
         'console_scripts': [
             'tic-tac-toe=app:app.run',
