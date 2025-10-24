@@ -35,10 +35,11 @@ def index():
 def play(cell):
     # breakpoint()
     global current_player
-    if board[cell] == ' ':
-        board[cell] = current_player
-        if not check_winner():
-            current_player = 'O' if current_player == 'X' else 'X'
+    if not check_winner():
+        if board[cell] == ' ':
+            board[cell] = current_player
+            if not check_winner():
+                current_player = 'O' if current_player == 'X' else 'X'
     return redirect(url_for('index'))
 
 
