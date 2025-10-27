@@ -53,10 +53,14 @@ def fake_move(symbol):
     for _ in range(len(board)):
         if board[_] == ' ':
             empty_cells.append(_)
+    # for each empty cell, change the cell on the fake board
+    # to the symbol passed as argument and check for win
     for empty_cell in empty_cells:
         fake_board[empty_cell] = symbol
+        # if a win is detected, return the cell index
         if check_winner(fake_board) == symbol:
             return empty_cell
+        # if no win, reset the cell to empty state
         else:
             fake_board[empty_cell] = ' '
     return None
