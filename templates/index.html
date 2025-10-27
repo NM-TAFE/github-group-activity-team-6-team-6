@@ -23,8 +23,10 @@
       <p class="result">Player {{ winner }} wins!</p>
       {% elif draw %}
       <p class="result">It's a draw!</p>
+      {% elif first_message %}
+      <p class ='result'> {{ first_message }}</p>
       {% else %}
-      <p class="current-player">random player: {{ current_player }}</p>
+      <p class="current-player">It's: {{ current_player }}'s turn!</p>
       {% endif %}
       <a href="{{ url_for('reset') }}" class="reset-button">Reset Game</a>
     </div>

@@ -5,7 +5,7 @@ app = Flask(__name__)
 # Initialise game board and current player
 board = [' '] * 9
 current_player = None
-
+first_message = None
 
 def check_winner():
     # Winning combinations
@@ -29,29 +29,35 @@ def check_draw():
 
 @app.route('/')
 def index():
-    global current_player
+    global current_player, first_message
+    first_message = None
     if current_player is None:
         current_player = play_random_move()
+        first_message = f"Player {current_player} starts first"
+    else:
+        first_message = None
+        
     winner = check_winner()
     draw = check_draw()
-    return render_template('index.html', board=board, current_player=current_player, winner=winner, draw=draw)
+    return render_template('index.html', board=board, current_player=current_player, winner=winner, draw=draw, first_message=first_message)
 
 
 @app.route('/play/<int:cell>')
 def play(cell):
     # breakpoint()
-    global current_player
+    global current_player, first_message
     if not check_winner() and board[cell] == ' ':
         board[cell] = current_player
         if not check_winner():
             current_player = 'O' if current_player == 'X' else 'X'
+        first_message = None
     return redirect(url_for('index'))
 
 @app.route('/reset')
 def reset():
     global board, current_player
     board = [' '] * 9
-    current_player = 'X'
+    current_player =  None
     return redirect(url_for('index'))
 
 
