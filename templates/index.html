@@ -24,7 +24,7 @@
       {% elif draw %}
       <p class="result">It's a draw!</p>
       {% else %}
-      <p class="current-player">Current Player: {{ current_player }}</p>
+      <p class="current-player">random player: {{ current_player }}</p>
       {% endif %}
       <a href="{{ url_for('reset') }}" class="reset-button">Reset Game</a>
     </div>

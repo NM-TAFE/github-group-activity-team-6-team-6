@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for
-
+import random 
 app = Flask(__name__)
 
 # Initialise game board and current player
 board = [' '] * 9
-current_player = 'X'
+current_player = None
 
 
 def check_winner():
@@ -19,6 +19,9 @@ def check_winner():
             return board[combination[0]]
     return None
 
+def play_random_move():
+    return random.choice(['X', 'O'])
+
 
 def check_draw():
     return ' ' not in board
@@ -26,6 +29,9 @@ def check_draw():
 
 @app.route('/')
 def index():
+    global current_player
+    if current_player is None:
+        current_player = play_random_move()
     winner = check_winner()
     draw = check_draw()
     return render_template('index.html', board=board, current_player=current_player, winner=winner, draw=draw)
@@ -35,13 +41,11 @@ def index():
 def play(cell):
     # breakpoint()
     global current_player
-    if not check_winner():
-        if board[cell] == ' ':
-            board[cell] = current_player
-            if not check_winner():
-                current_player = 'O' if current_player == 'X' else 'X'
+    if not check_winner() and board[cell] == ' ':
+        board[cell] = current_player
+        if not check_winner():
+            current_player = 'O' if current_player == 'X' else 'X'
     return redirect(url_for('index'))
-
 
 @app.route('/reset')
 def reset():
