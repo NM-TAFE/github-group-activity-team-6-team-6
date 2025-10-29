@@ -28,32 +28,12 @@ def check_draw():
 @app.route('/')
 def choice():
     return render_template('choice.html')
-#
-#
-# @app.route('/two_players')
-# def two_players():
-#     winner = check_winner()
-#     draw = check_draw()
-#     return render_template('index.html',
-#                            board=board,
-#                            current_player=current_player,
-#                            winner=winner,
-#                            draw=draw)
-#
-# @app.route('/ai_play')
-# def ai_play():
-#     ai_bot.ai_move("X", "O")
-#     winner = check_winner()
-#     draw = check_draw()
-#
+
 
 @app.route('/play')
 def index():
     winner = check_winner()
     draw = check_draw()
-    if current_player == 'O' and len(ai_bot.create_empty_cells_list(board))>0:
-        cell = ai_bot.ai_move(board, "X", "O")
-        play(cell)
     return render_template('index.html',
                            board=board,
                            current_player=current_player,
@@ -72,12 +52,43 @@ def play(cell):
     return redirect(url_for('index'))
 
 
+@app.route('/play_ai')
+def index_ai():
+    winner = check_winner()
+    draw = check_draw()
+    if current_player == 'O' and len(ai_bot.create_empty_cells_list(board)) > 0:
+        cell = ai_bot.ai_move(board, "X", "O")
+        play_ai(cell)
+    return render_template('index_ai.html',
+                           board=board,
+                           current_player=current_player,
+                           winner=winner,
+                           draw=draw)
+
+
+@app.route('/play_ai/<int:cell>')
+def play_ai(cell):
+    global current_player
+    if board[cell] == ' ':
+        board[cell] = current_player
+        if not check_winner():
+            current_player = 'O' if current_player == 'X' else 'X'
+    return redirect(url_for('index_ai'))
+
+
 @app.route('/reset')
 def reset():
     global board, current_player
     board = [' '] * 9
     current_player = 'X'
     return redirect(url_for('index'))
+
+@app.route('/reset_ai')
+def reset():
+    global board, current_player
+    board = [' '] * 9
+    current_player = 'X'
+    return redirect(url_for('index_ai'))
 
 
 if __name__ == '__main__':
