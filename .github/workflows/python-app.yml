@@ -45,7 +45,7 @@ jobs:
         pwd
         ls -la
     - name: Create Coverage Report
-      if: ${{ github.event_name == 'pull_request' }}
+      if: ${{ github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false) }}
       uses: orgoro/coverage@v3.2
       with:
         coverageFile: coverage.xml
