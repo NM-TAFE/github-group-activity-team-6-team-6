@@ -11,7 +11,7 @@ class TestApp(unittest.TestCase):
         app.current_player = None
 
     def test_home_route(self):
-        response = self.client.get("/")
+        response = self.client.get("/play")
         self.assertEqual(response.status_code, 200)
         # optional: check that the board was rendered
         self.assertIn(b"Tic Tac Toe", response.data)
@@ -25,7 +25,7 @@ class TestApp(unittest.TestCase):
 
     def test_no_play_after_win(self):
         # start random first player
-        self.client.get("/")    
+        self.client.get("/play")
         self.client.get("/play/0")
         self.client.get("/play/1")
         self.client.get("/play/3")
