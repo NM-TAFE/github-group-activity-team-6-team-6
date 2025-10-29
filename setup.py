@@ -9,7 +9,7 @@ setup(
         'Flask==2.3.3',
     ],
     extras_require={
-        'dev': ['flake8'],
+        'dev': ['coverage','flake8'],
     },
     entry_points={
         'console_scripts': [
