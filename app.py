@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
+import ai_bot
+
 import random 
 app = Flask(__name__)
 
@@ -28,6 +30,11 @@ def check_draw():
 
 
 @app.route('/')
+def choice():
+    return render_template('choice.html')
+
+
+@app.route('/play')
 def index():
     global current_player, first_message
     first_message = None
@@ -53,6 +60,31 @@ def play(cell):
         first_message = None
     return redirect(url_for('index'))
 
+
+@app.route('/play_ai')
+def index_ai():
+    winner = check_winner()
+    draw = check_draw()
+    if not check_winner() and current_player == 'O' and len(ai_bot.create_empty_cells_list(board)) > 0:
+        cell = ai_bot.ai_move(board, "X", "O")
+        play_ai(cell)
+    return render_template('index_ai.html',
+                           board=board,
+                           current_player=current_player,
+                           winner=winner,
+                           draw=draw)
+
+
+@app.route('/play_ai/<int:cell>')
+def play_ai(cell):
+    global current_player
+    if board[cell] == ' ':
+        board[cell] = current_player
+        if not check_winner():
+            current_player = 'O' if current_player == 'X' else 'X'
+    return redirect(url_for('index_ai'))
+
+
 @app.route('/reset')
 def reset():
     global board, current_player
@@ -60,6 +92,13 @@ def reset():
     current_player =  None
     return redirect(url_for('index'))
 
+@app.route('/reset_ai')
+def reset_ai():
+    global board, current_player
+    board = [' '] * 9
+    current_player = 'X'
+    return redirect(url_for('index_ai'))
+
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port="5050")
