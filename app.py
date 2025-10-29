@@ -56,7 +56,7 @@ def play(cell):
 def index_ai():
     winner = check_winner()
     draw = check_draw()
-    if current_player == 'O' and len(ai_bot.create_empty_cells_list(board)) > 0:
+    if not check_winner() and current_player == 'O' and len(ai_bot.create_empty_cells_list(board)) > 0:
         cell = ai_bot.ai_move(board, "X", "O")
         play_ai(cell)
     return render_template('index_ai.html',
@@ -84,7 +84,7 @@ def reset():
     return redirect(url_for('index'))
 
 @app.route('/reset_ai')
-def reset():
+def reset_ai():
     global board, current_player
     board = [' '] * 9
     current_player = 'X'
