@@ -7,6 +7,10 @@ body {
   background-color: #f5f5f5;
 }
 
+.choice {
+  display: grid;
+}
+
 .container {
   text-align: center;
 }
@@ -55,4 +59,12 @@ body {
 .current-player {
   font-size: 1.2em;
   margin-bottom: 20px;
+}
+
+.choice_button {
+    padding: 10px 20px;
+  background-color: grey;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
 }

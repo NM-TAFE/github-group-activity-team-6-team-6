@@ -10,10 +10,10 @@
     />
   </head>
   <body>
-        <h1>Tic Tac Toe</h1>
-        <div class="choice">
-            <button id="two_players">2 players</button>
-            <button id="ai_bot">vs AI</button>
-        </div>
+    <div class="choice">
+       <h1>Tic Tac Toe</h1>
+       <a href="{{ url_for('index', players="two_players") }}" class="choice_button">2 players</a>
+       <a href="{{ url_for('index', players="ai_player") }}" class="choice_button">vs AI</a>
+    </div>
   </body>
 </html>
